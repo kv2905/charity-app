@@ -1,7 +1,7 @@
+import 'package:charityapp/screens/recipient_screen.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/widgets/form_input_field.dart';
-
 
 class SignupForm extends StatefulWidget {
   @override
@@ -64,10 +64,14 @@ class _SignupFormState extends State<SignupForm> {
             ),
           ),
           SizedBox(height: 10),
-          CustomButton(buttonName: 'Sign up', onPressed: (){},)
+          CustomButton(
+            buttonName: 'Sign up',
+            onPressed: () {
+              Navigator.pushNamed(context, RecipientScreen.id);
+            },
+          )
         ],
       ),
     );
   }
 }
-

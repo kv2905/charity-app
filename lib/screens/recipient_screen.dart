@@ -1,28 +1,22 @@
-import 'package:charityapp/screens/donation_form.dart';
-import 'package:charityapp/screens/recipients_list_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:charityapp/screens/item_details.dart';
+import 'package:charityapp/screens/request_form.dart';
 import 'package:charityapp/widgets/search_bar.dart';
+import 'package:flutter/material.dart';
 
-class DonorScreen extends StatefulWidget {
-  static const String id = 'donor_screen';
+class RecipientScreen extends StatefulWidget {
+  static const String id = 'recipient_screen';
   @override
-  _DonorScreenState createState() => _DonorScreenState();
+  _RecipientScreenState createState() => _RecipientScreenState();
 }
 
-class _DonorScreenState extends State<DonorScreen> {
-
+class _RecipientScreenState extends State<RecipientScreen> {
   // ignore: non_constant_identifier_names
   _SingleCard(Icon icon) {
-    return  Container(
+    return Container(
       margin: EdgeInsets.all(10),
       child: Card(
         child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          onTap: () {
-            Navigator.pushNamed(context, RecipientsList.id);
-          },
-          child: icon
-        ),
+            splashColor: Colors.blue.withAlpha(30), onTap: () {Navigator.pushNamed(context, ItemDetails.id);}, child: icon),
       ),
     );
   }
@@ -40,8 +34,8 @@ class _DonorScreenState extends State<DonorScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Welcome Donor!',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Charity App',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -52,11 +46,14 @@ class _DonorScreenState extends State<DonorScreen> {
                           color: Colors.blue,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, DonationForm.id);
+                          Navigator.pushNamed(context, RequestForm.id);
                         },
                         iconSize: 50,
                       ),
-                      Text('add item', style: TextStyle(fontWeight: FontWeight.bold),)
+                      Text(
+                        'add request',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )
                     ],
                   )
                 ],
@@ -65,11 +62,9 @@ class _DonorScreenState extends State<DonorScreen> {
             SizedBox(height: 10),
             SearchBar(),
             SizedBox(height: 20),
-            Text('Your Donations', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
-            SizedBox(height: 20),
             Expanded(
               child: GridView.count(
-                childAspectRatio: 9/10,
+                childAspectRatio: 9 / 10,
                 crossAxisCount: 2,
                 children: [
                   _SingleCard(Icon(Icons.add_circle)),
@@ -78,26 +73,10 @@ class _DonorScreenState extends State<DonorScreen> {
                   _SingleCard(Icon(Icons.add_circle)),
                 ],
               ),
-            ),
-            SizedBox(height: 20),
-            Text('Recipients Request' , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
-            SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                childAspectRatio: 9/10,
-                crossAxisCount: 2,
-                children: [
-                  _SingleCard(Icon(Icons.add_circle)),
-                  _SingleCard(Icon(Icons.add_circle)),
-                  _SingleCard(Icon(Icons.add_circle)),
-                  _SingleCard(Icon(Icons.add_circle)),
-                ],
-              ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 }
-

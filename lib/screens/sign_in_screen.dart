@@ -68,7 +68,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fieldName: 'Email*',
                 ),
                 FormInputField(
-                  fieldName: 'Choose Password*',
+                  fieldName: 'Password*',
                 ),
                 SizedBox(height: 70),
                 Container(
