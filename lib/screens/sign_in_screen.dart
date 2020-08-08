@@ -1,3 +1,5 @@
+import 'package:charityapp/screens/donors_screen.dart';
+import 'package:charityapp/widgets/custom_button.dart';
 import 'package:charityapp/widgets/form_input_field.dart';
 import 'package:flutter/material.dart';
 
@@ -73,26 +75,16 @@ class _SigninScreenState extends State<SigninScreen> {
                   width: 250,
                   alignment: Alignment.center,
                   child: Text(
-                    'By proceeding you also agree to the Terms of Service and Privacy Policy.',
+                    '* By proceeding you also agree to the Terms of Service and Privacy Policy.',
                   ),
                 ),
                 SizedBox(height: 20),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(59.0),
-                  ),
-                  onPressed: () {},
-                  color: Color(0xFF5D637A),
-                  textColor: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 90, vertical: 20),
-                    child: Text(
-                      "Sign up".toUpperCase(),
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ),
+                CustomButton(
+                  buttonName: 'Sign in',
+                  onPressed: () {
+                    Navigator.pushNamed(context, DonorScreen.id);
+                  },
+                )
               ],
             ),
           ),

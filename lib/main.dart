@@ -1,3 +1,4 @@
+import 'package:charityapp/screens/donors_screen.dart';
 import 'package:charityapp/screens/sign_in_screen.dart';
 import 'package:charityapp/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       initialRoute: SignupScreen.id,
       routes: {
         SignupScreen.id: (context) => SignupScreen(),
-        SigninScreen.id: (context) => SigninScreen()
+        SigninScreen.id: (context) => SigninScreen(),
+        DonorScreen.id: (context) => DonorScreen(),
       },
     );
   }
