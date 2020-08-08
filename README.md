@@ -1,6 +1,6 @@
 # charityapp
 
-A chairty app where people signup and offer something for free(e.g. meal, clothes) and other users can sign in and express what they want. They can also post needed items.
+A charity app where people signup and offer something for free(e.g. meal, clothes) and other users can sign in and express what they want. They can also post needed items.
 
 ## Getting Started
 

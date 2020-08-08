@@ -1,3 +1,4 @@
+import 'package:charityapp/widgets/form_input_field.dart';
 import 'package:flutter/material.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Sign in',
@@ -28,8 +30,73 @@ class _SigninScreenState extends State<SigninScreen> {
           },
         ),
       ),
-      body: Center(
-        child: Text('Sign in screen'),
+      body: Column(
+        children: [
+          SizedBox(height: 100),
+          Container(
+            padding: EdgeInsets.all(5),
+            height: 40,
+            child: Text(
+              'Charity App Signin',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(5),
+            height: 90,
+            child: Text(
+              'Offer something for free(e.g. meal, clothes) or express what you want',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 19,
+              ),
+            ),
+          ),
+          Form(
+            child: Column(
+              children: [
+                FormInputField(
+                  fieldName: 'Email*',
+                ),
+                FormInputField(
+                  fieldName: 'Choose Password*',
+                ),
+                SizedBox(height: 70),
+                Container(
+                  width: 250,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'By proceeding you also agree to the Terms of Service and Privacy Policy.',
+                  ),
+                ),
+                SizedBox(height: 20),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(59.0),
+                  ),
+                  onPressed: () {},
+                  color: Color(0xFF5D637A),
+                  textColor: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 90, vertical: 20),
+                    child: Text(
+                      "Sign up".toUpperCase(),
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
