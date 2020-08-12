@@ -53,7 +53,7 @@ class _RequestFormState extends State<RequestForm> {
                   fieldName: 'Name of the item',
                 ),
                 FormInputField(
-                  fieldName: 'Amount',
+                  fieldName: 'Quantity',
                 ),
                 FormInputField(
                   fieldName: 'Contact Number',

@@ -5,7 +5,7 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 55,
-      width: 320,
+      width: 250,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(

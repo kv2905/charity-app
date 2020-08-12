@@ -1,5 +1,6 @@
 import 'package:charityapp/screens/item_details.dart';
 import 'package:charityapp/screens/request_form.dart';
+import 'package:charityapp/widgets/app_drawer.dart';
 import 'package:charityapp/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -24,26 +25,29 @@ class _RecipientScreenState extends State<RecipientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Charity App'),
+        centerTitle: true,
+        backgroundColor: Color(0xFF5D637A),
+      ),
+      drawer: AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(10),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Charity App',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
+                  SearchBar(),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         icon: Icon(
                           Icons.add_circle,
-                          color: Colors.blue,
+                          color: Color(0xFF5D637A),
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, RequestForm.id);
@@ -59,8 +63,6 @@ class _RecipientScreenState extends State<RecipientScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
-            SearchBar(),
             SizedBox(height: 20),
             Expanded(
               child: GridView.count(

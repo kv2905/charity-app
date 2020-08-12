@@ -53,7 +53,7 @@ class _DonationFormState extends State<DonationForm> {
                   fieldName: 'Choose a item to donate',
                 ),
                 FormInputField(
-                  fieldName: 'Amount',
+                  fieldName: 'Quantity',
                 ),
                 FormInputField(
                   fieldName: 'Contact Number',

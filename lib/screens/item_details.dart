@@ -58,7 +58,7 @@ class _ItemDetailsState extends State<ItemDetails> {
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
               child: ListTile(
                 title: Text(
-                  'Amount',
+                  'Quantity',
                   style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.teal.shade900
