@@ -1,31 +1,36 @@
+import 'package:charityapp/screens/covid19_pdf_view.dart';
 import 'package:charityapp/screens/donors_screen.dart';
+import 'package:charityapp/screens/login_signup_screen.dart';
 import 'package:charityapp/screens/recipient_screen.dart';
-import 'package:charityapp/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/widgets/option_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+FirebaseUser loggedInUser;
 
 class AppDrawer extends StatefulWidget {
-  AppDrawer({this.auth, this.logoutCallback});
-  final BaseAuth auth;
-  final VoidCallback logoutCallback;
   @override
   _AppDrawerState createState() => _AppDrawerState();
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
-  signOut() async {
-    try {
-      await widget.auth.signOut();
-      widget.logoutCallback();
-    } catch (e) {
-      print(e);
-    }
-  }
+  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -55,16 +60,15 @@ class _AppDrawerState extends State<AppDrawer> {
                 optionName: 'Request',
               ),
               OptionTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, Covid19PDFView.id);
+                },
                 optionName: 'Covid-19',
               ),
               OptionTile(
-                onTap: () {},
-                optionName: 'About us',
-              ),
-              OptionTile(
                 onTap: () {
-                  signOut();
+                  _auth.signOut();
+                  Navigator.pushNamed(context, LoginSignupScreen.id);
                 },
                 optionName: 'LogOut',
               )

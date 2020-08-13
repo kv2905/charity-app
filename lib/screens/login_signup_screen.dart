@@ -1,4 +1,3 @@
-import 'package:charityapp/screens/donors_screen.dart';
 import 'package:charityapp/services/authentication.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +47,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           print('Signed in: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
-          alertUser('User Signed up', 'You are successfully signed up sign in to continue');
+          alertUser('User Signed up', 'You are successfully signed up! Please sign in to continue.');
           print('Signed up user: $userId');
         }
         setState(() {
@@ -232,9 +231,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               borderRadius: BorderRadius.zero),
         ),
         validator: (value) {
-          if (value.isEmpty) return 'Password can\'t be empty';
+          if (value.isEmpty && !_isLoginForm) return 'Password can\'t be empty';
 
-          if (value.length < 8) return 'Password length must be greater than 8';
+          if (value.length < 8 && !_isLoginForm) return 'Password length must be greater than 8';
 
           return null;
         },

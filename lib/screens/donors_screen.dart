@@ -1,16 +1,10 @@
 import 'package:charityapp/screens/donation_form.dart';
 import 'package:charityapp/screens/recipients_list_screen.dart';
-import 'package:charityapp/services/authentication.dart';
 import 'package:charityapp/widgets/app_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DonorScreen extends StatefulWidget {
-  DonorScreen({Key key, this.auth, this.userId, this.logoutCallback})
-      : super(key: key);
-  final BaseAuth auth;
-  final VoidCallback logoutCallback;
-  final String userId;
   static const String id = 'donor_screen';
   @override
   _DonorScreenState createState() => _DonorScreenState();
@@ -40,7 +34,7 @@ class _DonorScreenState extends State<DonorScreen> {
         centerTitle: true,
         backgroundColor: Color(0xFF5D637A),
       ),
-      drawer: AppDrawer(auth: widget.auth, logoutCallback: widget.logoutCallback),
+      drawer: AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [

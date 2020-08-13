@@ -76,11 +76,7 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return DonorScreen(
-            auth: widget.auth,
-            logoutCallback: logoutCallback,
-            userId: _userId,
-          );
+          return DonorScreen();
         } else
           return buildWaitingScreen();
         break;

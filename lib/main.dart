@@ -1,3 +1,4 @@
+import 'package:charityapp/screens/covid19_pdf_view.dart';
 import 'package:charityapp/screens/donation_form.dart';
 import 'package:charityapp/screens/donors_screen.dart';
 import 'package:charityapp/screens/item_details.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         RecipientScreen.id: (context) => RecipientScreen(),
         RequestForm.id: (context) => RequestForm(),
         ItemDetails.id: (context) => ItemDetails(),
+        Covid19PDFView.id: (context) => Covid19PDFView(),
       },
     );
   }
