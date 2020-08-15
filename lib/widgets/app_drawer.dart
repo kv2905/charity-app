@@ -1,7 +1,7 @@
 import 'package:charityapp/screens/covid19_pdf_view.dart';
 import 'package:charityapp/screens/donors_screen.dart';
-import 'package:charityapp/screens/login_signup_screen.dart';
 import 'package:charityapp/screens/recipient_screen.dart';
+import 'package:charityapp/screens/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/widgets/option_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +31,34 @@ class _AppDrawerState extends State<AppDrawer> {
     } catch (e) {
       print(e);
     }
+  }
+
+  showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('LOG OUT'),
+          content: Text("Are You Sure Want To Proceed ?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("YES"),
+              onPressed: () {
+                _auth.signOut();
+                Navigator.pushNamed(context, RootPage.id);
+              },
+            ),
+
+            FlatButton(
+              child: Text("NO"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -63,12 +91,11 @@ class _AppDrawerState extends State<AppDrawer> {
                 onTap: () {
                   Navigator.pushNamed(context, Covid19PDFView.id);
                 },
-                optionName: 'Covid-19',
+                optionName: 'Covid-19 Australia',
               ),
               OptionTile(
                 onTap: () {
-                  _auth.signOut();
-                  Navigator.pushNamed(context, LoginSignupScreen.id);
+                  showAlert(context);
                 },
                 optionName: 'LogOut',
               )

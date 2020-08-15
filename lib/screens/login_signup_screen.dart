@@ -98,7 +98,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new FlatButton(
-                child: new Text("Close"),
+                child: new Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();
                   toggleFormMode();
