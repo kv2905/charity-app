@@ -47,7 +47,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           print('Signed in: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
-          alertUser('User Signed up', 'You are successfully signed up! Please sign in to continue.');
+          alertUser('User Signed up',
+              'You are successfully signed up! Please sign in to continue.');
           print('Signed up user: $userId');
         }
         setState(() {
@@ -90,23 +91,23 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   void alertUser(String title, String message) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text(title),
-            content: new Text(message),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  toggleFormMode();
-                },
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                toggleFormMode();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -233,7 +234,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         validator: (value) {
           if (value.isEmpty && !_isLoginForm) return 'Password can\'t be empty';
 
-          if (value.length < 8 && !_isLoginForm) return 'Password length must be greater than 8';
+          if (value.length < 8 && !_isLoginForm)
+            return 'Password length must be greater than 8';
 
           return null;
         },
