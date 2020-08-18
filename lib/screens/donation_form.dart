@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:charityapp/screens/donors_screen.dart';
+import 'package:charityapp/screens/root_page.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +17,16 @@ class _DonationFormState extends State<DonationForm> {
   final _formKey = new GlobalKey<FormState>();
   File _imageFile;
   String _uploadedImageURL;
-  String _itemName;
+  String _itemName = 'item1';
   String _quantity;
   String _donorName;
   String _contactNumber;
   String _address;
   String _image;
-  String _errorMessage;
   bool _isLoading;
 
   @override
   void initState() {
-    _errorMessage = '';
     _isLoading = false;
     super.initState();
   }
@@ -44,18 +44,19 @@ class _DonationFormState extends State<DonationForm> {
                 onPressed: () {
                   Navigator.pop(context);
                   _formKey.currentState.reset();
-                  _errorMessage = "";
                 },
               )
             ],
           );
-        }
-    );
+        });
   }
 
   Future uploadImage() async {
-    StorageReference reference = FirebaseStorage.instance.ref().child('images/${Path.basename(_imageFile.path)}');
-    StorageUploadTask uploadTask = reference.putFile(_imageFile);
+    String fileName = Path.basename(_imageFile.path);
+    StorageReference reference = FirebaseStorage.instance
+        .ref()
+        .child('images').child(fileName);
+    StorageUploadTask uploadTask = reference.putFile(_imageFile, StorageMetadata(contentType: 'image/jpeg'));
     await uploadTask.onComplete;
     print('File Uploaded');
     reference.getDownloadURL().then((fileURL) {
@@ -76,12 +77,11 @@ class _DonationFormState extends State<DonationForm> {
 
   // Perform login or signup
   void validateAndSubmit() async {
-    if(_imageFile == null) {
+    if (_imageFile == null) {
       alertUser('Alert', 'No image selected.');
       return;
     }
     setState(() {
-      _errorMessage = "";
       _isLoading = true;
     });
     if (validateAndSave()) {
@@ -90,12 +90,14 @@ class _DonationFormState extends State<DonationForm> {
         await uploadImage();
         setState(() {
           _isLoading = false;
+          _imageFile = null;
+          alertUser('Success', 'Thank you for making a donation!');
         });
       } catch (e) {
         print('Error: $e');
         setState(() {
           _isLoading = false;
-          _errorMessage = e.message;
+          alertUser('Error', e.message);
           _formKey.currentState.reset();
         });
       }
@@ -103,14 +105,14 @@ class _DonationFormState extends State<DonationForm> {
   }
 
   Future getImage(bool isCamera) async {
-    File image;
-    if(isCamera) {
-      image = await ImagePicker.pickImage(source: ImageSource.camera);
-    }else {
-      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    PickedFile image;
+    if (isCamera) {
+      image = await ImagePicker().getImage(source: ImageSource.camera);
+    } else {
+      image = await ImagePicker().getImage(source: ImageSource.gallery);
     }
     setState(() {
-      _imageFile = image;
+      _imageFile = File(image.path);
     });
   }
 
@@ -167,16 +169,19 @@ class _DonationFormState extends State<DonationForm> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('Choose Photo', style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(
+                          _imageFile == null ? 'Choose Photo' : 'Change photo',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: _imageFile == null ? Colors.black : Colors.blue),
+                        ),
                         IconButton(
                           icon: Icon(Icons.add_a_photo),
-                          onPressed: (){
+                          onPressed: () {
                             getImage(true);
                           },
                         ),
                         IconButton(
                           icon: Icon(Icons.add_photo_alternate),
-                          onPressed: (){
+                          onPressed: () {
                             getImage(false);
                           },
                         ),
@@ -185,9 +190,10 @@ class _DonationFormState extends State<DonationForm> {
                     SizedBox(height: 70),
                     CustomButton(
                       buttonName: 'Submit',
-                      onPressed: () {},
+                      onPressed: () {
+                        validateAndSubmit();
+                      },
                     ),
-                    showErrorMessage()
                   ],
                 ),
               ),
@@ -220,7 +226,7 @@ class _DonationFormState extends State<DonationForm> {
           filled: true,
           fillColor: Colors.white70,
           contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
+              const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black38),
               borderRadius: BorderRadius.zero),
@@ -229,9 +235,13 @@ class _DonationFormState extends State<DonationForm> {
               borderRadius: BorderRadius.zero),
         ),
         validator: (value) => value.isEmpty ? "can\'t be empty" : null,
-        onTap: () {_isLoading = false;},
+        onTap: () {
+          setState(() {
+            _isLoading = false;
+          });
+        },
         onSaved: (value) {
-          switch(type) {
+          switch (type) {
             case 1:
               _itemName = value;
               break;
@@ -252,24 +262,4 @@ class _DonationFormState extends State<DonationForm> {
       ),
     );
   }
-
-  Widget showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return Text(
-        _errorMessage,
-        style: TextStyle(
-          fontSize: 13.0,
-          color: Colors.red,
-          height: 1.0,
-          fontWeight: FontWeight.w300,
-        ),
-      );
-    } else {
-      return Container(
-        height: 0.0,
-      );
-    }
-  }
-
-
 }
