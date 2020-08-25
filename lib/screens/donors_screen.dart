@@ -34,7 +34,12 @@ class _DonorScreenState extends State<DonorScreen> {
         centerTitle: true,
         backgroundColor: Color(0xFF5D637A),
       ),
-      drawer: AppDrawer(),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Color(0xFF5D637A),
+        ),
+        child: AppDrawer(),
+      ),
       body: SafeArea(
         child: Column(
           children: [

@@ -1,4 +1,3 @@
-import 'package:charityapp/screens/user_card.dart';
 import 'package:flutter/material.dart';
 
 class RecipientsList extends StatefulWidget {
@@ -35,7 +34,7 @@ class _RecipientsListState extends State<RecipientsList> {
             trailing: IconButton(
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: (){
-                Navigator.pushNamed(context, UserCard.id);
+//                Navigator.pushNamed(context, UserCard.id);
               },
             ),
           ),

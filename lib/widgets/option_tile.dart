@@ -10,16 +10,11 @@ class OptionTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black26,
-        border: Border.all(
-          color: Colors.black38,
-          width: 1.0,
-          style: BorderStyle.solid,
-        ),
       ),
       child: ListTile(
         title: Text(
           optionName,
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500, color: Colors.white70),
         ),
         onTap: onTap,
       ),

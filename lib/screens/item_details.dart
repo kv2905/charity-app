@@ -1,14 +1,25 @@
+import 'package:charityapp/models/donation.dart';
+import 'package:charityapp/models/request.dart';
 import 'package:charityapp/screens/user_card.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
-class ItemDetails extends StatefulWidget {
-  static const String id = 'item_details';
-  @override
-  _ItemDetailsState createState() => _ItemDetailsState();
-}
+class ItemDetails extends StatelessWidget {
+  ItemDetails({this.request, this.donation, this.type});
+  final Donation donation;
+  final Request request;
+  final String type;
 
-class _ItemDetailsState extends State<ItemDetails> {
+  String getName() {
+    if (type == 'donation') return donation.name;
+    return 'Name';
+  }
+
+  String getQuantity() {
+    if (type == 'donation') return donation.quantity;
+    return 'Quantity';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,48 +42,61 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-              child: Container(
-                height: 200,
-                child: Center(
-                  child: Text('image'),
-                ),
-              ),
-            ),
-          ),
+          SizedBox(height: 20),
           Card(
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
               child: ListTile(
                 title: Text(
-                  'Name',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.teal.shade900
-                  ),
+                  'Item Name - ' + getName().toUpperCase(),
+                  style: TextStyle(fontSize: 20.0, color: Colors.teal.shade900),
                 ),
-              )
-          ),
+              )),
           Card(
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
               child: ListTile(
                 title: Text(
-                  'Quantity',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.teal.shade900
-                  ),
+                  'Quantity - ' + getQuantity(),
+                  style: TextStyle(fontSize: 20.0, color: Colors.teal.shade900),
                 ),
-              )
-          ),
+              )),
+          SizedBox(height: 30),
+          type == 'donation'
+              ? Expanded(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.network(
+                        donation.img,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
+              : null,
           SizedBox(height: 50),
           CustomButton(
             buttonName: 'Connect Donor',
-            onPressed: (){
-              Navigator.pushNamed(context, UserCard.id);
+            onPressed: () {
+              if (type == 'donation') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserCard(
+                      name: donation.donorName,
+                      address: donation.donorAddress,
+                      email: donation.donorID,
+                      phone: donation.donorContact,
+                    ),
+                  ),
+                );
+              }
             },
-          )
+          ),
+          SizedBox(height: 100)
         ],
       ),
     );

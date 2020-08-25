@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class UserCard extends StatefulWidget {
-  static const String id = 'user_card';
-  @override
-  _UserCardState createState() => _UserCardState();
-}
-
-class _UserCardState extends State<UserCard> {
+class UserCard extends StatelessWidget {
+  UserCard({this.name, this.email, this.address, this.phone});
+  final String name;
+  final String address;
+  final String phone;
+  final String email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +30,7 @@ class _UserCardState extends State<UserCard> {
         children: <Widget>[
           SizedBox(height: 100),
           Text(
-            'Sherlock Holmes',
+            name,
             style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
@@ -39,7 +38,7 @@ class _UserCardState extends State<UserCard> {
           ),
           SizedBox(height: 10),
           Text(
-            '233B, BAKER STREET, LONDON',
+            address,
             style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -57,7 +56,7 @@ class _UserCardState extends State<UserCard> {
               child: ListTile(
                 leading: Icon(Icons.phone, color: Colors.teal),
                 title: Text(
-                  '+91 XXXXXXXXXX',
+                  phone,
                   style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.teal.shade900
@@ -70,7 +69,7 @@ class _UserCardState extends State<UserCard> {
               child: ListTile(
                 leading: Icon(Icons.email, color: Colors.teal),
                 title: Text(
-                  'xyz123@gmail.com',
+                  email,
                   style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.teal.shade900
