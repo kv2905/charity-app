@@ -1,11 +1,14 @@
 import 'dart:io';
-import 'package:charityapp/screens/donors_screen.dart';
-import 'package:charityapp/screens/root_page.dart';
+import 'package:charityapp/models/donation.dart';
 import 'package:charityapp/widgets/custom_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
+
+FirebaseUser loggedInUser;
 
 class DonationForm extends StatefulWidget {
   static const String id = 'donation_form';
@@ -14,55 +17,68 @@ class DonationForm extends StatefulWidget {
 }
 
 class _DonationFormState extends State<DonationForm> {
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Firestore _db = Firestore.instance;
   File _imageFile;
   String _uploadedImageURL;
-  String _itemName = 'item1';
+  String _itemName;
   String _quantity;
   String _donorName;
   String _contactNumber;
   String _address;
-  String _image;
   bool _isLoading;
+  Donation _donation;
 
   @override
   void initState() {
     _isLoading = false;
+    getCurrentUser();
     super.initState();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   void alertUser(String title, String message) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  _formKey.currentState.reset();
-                },
-              )
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                _formKey.currentState.reset();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   Future uploadImage() async {
     String fileName = Path.basename(_imageFile.path);
-    StorageReference reference = FirebaseStorage.instance
-        .ref()
-        .child('images').child(fileName);
+    StorageReference reference =
+        FirebaseStorage.instance.ref().child('images').child(fileName);
     StorageUploadTask uploadTask = reference.putFile(_imageFile, StorageMetadata(contentType: 'image/jpeg'));
     await uploadTask.onComplete;
     print('File Uploaded');
-    reference.getDownloadURL().then((fileURL) {
-      setState(() {
-        _uploadedImageURL = fileURL;
-      });
+    String downloadURL = (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    setState(() {
+      _uploadedImageURL = downloadURL;
     });
   }
 
@@ -75,7 +91,6 @@ class _DonationFormState extends State<DonationForm> {
     return false;
   }
 
-  // Perform login or signup
   void validateAndSubmit() async {
     if (_imageFile == null) {
       alertUser('Alert', 'No image selected.');
@@ -85,21 +100,42 @@ class _DonationFormState extends State<DonationForm> {
       _isLoading = true;
     });
     if (validateAndSave()) {
-      String userId = "";
       try {
         await uploadImage();
+        if(_uploadedImageURL == null) {
+          alertUser('Error', 'Some error occurred while uploading image');
+          setState(() {
+            _isLoading = false;
+            _imageFile = null;
+          });
+          _formKey.currentState.reset();
+          return;
+        }
+        print(_uploadedImageURL);
+        _donation = Donation(
+          donorName: _donorName,
+          donorAddress: _address,
+          donorContact: _contactNumber,
+          donorID: loggedInUser.email,
+          name: _itemName,
+          quantity: _quantity,
+          img: _uploadedImageURL,
+        );
+        await _db.collection('donations').add(_donation.toJSON());
         setState(() {
           _isLoading = false;
           _imageFile = null;
-          alertUser('Success', 'Thank you for making a donation!');
         });
+        alertUser('Success', 'Thank you for making a donation!');
+        _formKey.currentState.reset();
       } catch (e) {
         print('Error: $e');
         setState(() {
           _isLoading = false;
-          alertUser('Error', e.message);
-          _formKey.currentState.reset();
+          _imageFile = null;
         });
+        alertUser('Error', e.message);
+        _formKey.currentState.reset();
       }
     }
   }
@@ -171,7 +207,12 @@ class _DonationFormState extends State<DonationForm> {
                       children: [
                         Text(
                           _imageFile == null ? 'Choose Photo' : 'Change photo',
-                          style: TextStyle(fontWeight: FontWeight.bold, color: _imageFile == null ? Colors.black : Colors.blue),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: _imageFile == null
+                                  ? Colors.black
+                                  : Colors.blue,
+                          ),
                         ),
                         IconButton(
                           icon: Icon(Icons.add_a_photo),

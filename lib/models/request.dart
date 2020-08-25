@@ -6,9 +6,9 @@ class Request {
   String recipientContact;
   String recipientAddress;
   String recipientID;
-  String img;
+  String description;
 
-  Request({this.img, this.recipientName, this.quantity, this.name, this.id, this.recipientAddress, this.recipientContact, this.recipientID});
+  Request({this.description, this.recipientName, this.quantity, this.name, this.id, this.recipientAddress, this.recipientContact, this.recipientID});
 
   Request.fromMap(Map snapshot, String id):
         id = id ?? '',
@@ -18,13 +18,13 @@ class Request {
         recipientID = snapshot['recipientID'] ?? '',
         recipientContact = snapshot['recipientContact'] ?? '',
         recipientAddress = snapshot['recipientAddress'] ?? '',
-        img = snapshot['img'] ?? '';
+        description = snapshot['img'] ?? '';
 
   toJSON() {
     return {
       "name": name,
       "quantity": quantity,
-      "img": img,
+      "description": description,
       "recipientName" : recipientName,
       "recipientContact": recipientContact,
       "recipientAddress": recipientAddress,
