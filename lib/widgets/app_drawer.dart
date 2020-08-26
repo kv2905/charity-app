@@ -1,6 +1,7 @@
 import 'package:charityapp/screens/covid19_pdf_view.dart';
 import 'package:charityapp/screens/donors_screen.dart';
 import 'package:charityapp/screens/recipient_screen.dart';
+import 'package:charityapp/screens/recipients_list_screen.dart';
 import 'package:charityapp/screens/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/widgets/option_tile.dart';
@@ -85,7 +86,13 @@ class _AppDrawerState extends State<AppDrawer> {
                 onTap: () {
                   Navigator.pushNamed(context, RecipientScreen.id);
                 },
-                optionName: 'Request',
+                optionName: 'Add Request',
+              ),
+              OptionTile(
+                onTap: () {
+                  Navigator.pushNamed(context, RecipientsList.id);
+                },
+                optionName: 'Check Requests',
               ),
               OptionTile(
                 onTap: () {

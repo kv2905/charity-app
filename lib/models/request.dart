@@ -18,7 +18,7 @@ class Request {
         recipientID = snapshot['recipientID'] ?? '',
         recipientContact = snapshot['recipientContact'] ?? '',
         recipientAddress = snapshot['recipientAddress'] ?? '',
-        description = snapshot['img'] ?? '';
+        description = snapshot['description'] ?? '';
 
   toJSON() {
     return {

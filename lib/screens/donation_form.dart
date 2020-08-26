@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:charityapp/models/donation.dart';
+import 'package:charityapp/screens/root_page.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -169,7 +170,7 @@ class _DonationFormState extends State<DonationForm> {
             size: 15,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, RootPage.id);
           },
         ),
       ),

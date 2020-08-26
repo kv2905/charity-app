@@ -1,3 +1,5 @@
+import 'package:charityapp/screens/root_page.dart';
+import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class UserCard extends StatelessWidget {
@@ -30,7 +32,7 @@ class UserCard extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 100),
           Text(
-            name,
+            name.toUpperCase(),
             style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
@@ -38,7 +40,7 @@ class UserCard extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            address,
+            address.toUpperCase(),
             style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -76,6 +78,13 @@ class UserCard extends StatelessWidget {
                   ),
                 ),
               )
+          ),
+          SizedBox(height: 50),
+          CustomButton(
+            buttonName: 'Go Back To Home',
+            onPressed: () {
+              Navigator.pushNamed(context, RootPage.id);
+            },
           )
         ],
       )

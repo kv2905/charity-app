@@ -2,6 +2,7 @@ import 'package:charityapp/models/donation.dart';
 import 'package:charityapp/models/request.dart';
 import 'package:charityapp/screens/user_card.dart';
 import 'package:charityapp/widgets/custom_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ItemDetails extends StatelessWidget {
@@ -11,13 +12,25 @@ class ItemDetails extends StatelessWidget {
   final String type;
 
   String getName() {
-    if (type == 'donation') return donation.name;
-    return 'Name';
+    if (type == 'donation' || type == 'mydonation') return donation.name;
+    return request.name;
   }
 
   String getQuantity() {
-    if (type == 'donation') return donation.quantity;
-    return 'Quantity';
+    if (type == 'donation' || type == 'mydonation') return donation.quantity;
+    return request.quantity;
+  }
+
+  String getBtnName() {
+    if (type == 'donation')
+      return 'Contact Donor';
+    else if (type == 'mydonation') return 'Go Back';
+    return 'Contact Recipient';
+  }
+
+  String getDescription() {
+    print(request.description);
+    return request.description;
   }
 
   @override
@@ -60,7 +73,7 @@ class ItemDetails extends StatelessWidget {
                 ),
               )),
           SizedBox(height: 30),
-          type == 'donation'
+          type == 'donation' || type == 'mydonation'
               ? Expanded(
                   child: Card(
                     clipBehavior: Clip.antiAlias,
@@ -76,10 +89,19 @@ class ItemDetails extends StatelessWidget {
                     ),
                   ),
                 )
-              : null,
+              : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                  child: Container(
+                    height: 100,
+                    width: double.infinity,
+                    color: Colors.white,
+                    padding: EdgeInsets.all(10),
+                    child: Text(getDescription(), style: TextStyle(color: Colors.teal.shade900, fontSize: 15),),
+                  ),
+                ),
           SizedBox(height: 50),
           CustomButton(
-            buttonName: 'Connect Donor',
+            buttonName: getBtnName(),
             onPressed: () {
               if (type == 'donation') {
                 Navigator.push(
@@ -90,6 +112,20 @@ class ItemDetails extends StatelessWidget {
                       address: donation.donorAddress,
                       email: donation.donorID,
                       phone: donation.donorContact,
+                    ),
+                  ),
+                );
+              } else if (type == 'mydonation') {
+                Navigator.pop(context);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserCard(
+                      name: request.recipientName,
+                      address: request.recipientAddress,
+                      email: request.recipientID,
+                      phone: request.recipientContact,
                     ),
                   ),
                 );

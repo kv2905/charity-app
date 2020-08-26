@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
       textColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: 90, vertical: 20),
+            horizontal: 60, vertical: 20),
         child: Text(
           buttonName.toUpperCase(),
           style: TextStyle(fontSize: 14),

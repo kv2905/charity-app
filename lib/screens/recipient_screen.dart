@@ -18,10 +18,15 @@ class _RecipientScreenState extends State<RecipientScreen> {
 
   getDonations() async {
     var data = await _db.collection('donations').getDocuments();
+    print(data.documents.length);
+    if(data.documents.length != 0) {
+      setState(() {
+        donations = data.documents
+            .map((doc) => Donation.fromMap(doc.data, doc.documentID))
+            .toList();
+      });
+    }
     setState(() {
-      donations = data.documents
-          .map((doc) => Donation.fromMap(doc.data, doc.documentID))
-          .toList();
       _isLoading = false;
     });
   }
@@ -39,36 +44,40 @@ class _RecipientScreenState extends State<RecipientScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ItemDetails(donation: donation, type: 'donation'),
+            builder: (context) =>
+                ItemDetails(donation: donation, type: 'donation'),
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.network(
-                  donation.img,
-                  fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    donation.img,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(
-              donation.name.toUpperCase(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-          )
-        ],
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                donation.name.toUpperCase(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -129,36 +138,20 @@ class _RecipientScreenState extends State<RecipientScreen> {
                   ),
                   SizedBox(height: 20),
                   Expanded(
-                      child: StreamBuilder(
-                    stream: _db.collection('donations').snapshots(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                            child: const Text('Loading donations...'));
-                      }
-                      return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          Donation temp = Donation(
-                              name: snapshot.data.documents[index]['name'],
-                              img: snapshot.data.documents[index]['img'],
-                              donorID: snapshot.data.documents[index]
-                                  ['donorID'],
-                              donorAddress: snapshot.data.documents[index]
-                                  ['donorAddress'],
-                              donorContact: snapshot.data.documents[index]
-                                  ['donorContact'],
-                              donorName: snapshot.data.documents[index]
-                                  ['donorName'],
-                              quantity: snapshot.data.documents[index]
-                                  ['quantity']);
-                          return donationCard(temp);
-                        },
-                        itemCount: snapshot.data.documents.length,
-                      );
-                    },
-                  ))
+                    child: donations != null
+                        ? GridView.builder(
+                            itemCount: donations.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int i) {
+                              return donationCard(donations[i]);
+                            },
+                          )
+                        : Center(
+                            child: Text('No Donations'),
+                          ),
+                  )
                 ],
               ),
             ),
