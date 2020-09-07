@@ -3,6 +3,7 @@ import 'package:charityapp/screens/item_details.dart';
 import 'package:charityapp/screens/request_form.dart';
 import 'package:charityapp/widgets/app_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecipientScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class RecipientScreen extends StatefulWidget {
 }
 
 class _RecipientScreenState extends State<RecipientScreen> {
+  final key = GlobalKey<ScaffoldState>();
   final Firestore _db = Firestore.instance;
   List<Donation> donations;
   bool _isLoading;
@@ -19,7 +21,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
   getDonations() async {
     var data = await _db.collection('donations').getDocuments();
     print(data.documents.length);
-    if(data.documents.length != 0) {
+    if (data.documents.length != 0) {
       setState(() {
         donations = data.documents
             .map((doc) => Donation.fromMap(doc.data, doc.documentID))
@@ -85,10 +87,20 @@ class _RecipientScreenState extends State<RecipientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       appBar: AppBar(
         title: Text('Charity App'),
         centerTitle: true,
         backgroundColor: Color(0xFF5D637A),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                  context: context, delegate: SearchBar(donations: donations));
+            },
+          )
+        ],
       ),
       drawer: Theme(
         data: Theme.of(context).copyWith(
@@ -140,6 +152,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
                   Expanded(
                     child: donations != null
                         ? GridView.builder(
+                            shrinkWrap: true,
                             itemCount: donations.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -155,6 +168,82 @@ class _RecipientScreenState extends State<RecipientScreen> {
                 ],
               ),
             ),
+    );
+  }
+}
+
+class SearchBar extends SearchDelegate<Donation> {
+  SearchBar({@required this.donations});
+  final List<Donation> donations;
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Navigator.pushNamed(context, RecipientScreen.id);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final List<Donation> myList = query.isEmpty
+        ? donations
+        : donations
+            .where((e) =>
+                (e.name.toLowerCase().startsWith(query.toLowerCase()) || e.donorAddress.toLowerCase().startsWith(query.toLowerCase())))
+            .toList();
+    return ListView.builder(
+      itemCount: myList.length,
+      itemBuilder: (context, i) {
+        return ListTile(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ItemDetails(donation: myList[i], type: 'donation'),
+              ),
+            );
+          },
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                myList[i].name.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                myList[i].donorAddress.toUpperCase(),
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              Divider(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:charityapp/models/donation.dart';
 import 'package:charityapp/models/request.dart';
+import 'package:charityapp/screens/recipient_screen.dart';
 import 'package:charityapp/screens/user_card.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +50,7 @@ class ItemDetails extends StatelessWidget {
             size: 15,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, RecipientScreen.id);
           },
         ),
       ),
