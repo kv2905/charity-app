@@ -200,8 +200,8 @@ class SearchBar extends SearchDelegate<Donation> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
+    FocusScope.of(context).requestFocus(new FocusNode());
+    return Container();
   }
 
   @override
