@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:charityapp/constants.dart';
 import 'package:charityapp/models/donation.dart';
 import 'package:charityapp/screens/root_page.dart';
 import 'package:charityapp/widgets/custom_button.dart';
@@ -89,6 +90,11 @@ class _DonationFormState extends State<DonationForm> {
       form.save();
       return true;
     }
+    setState(() {
+      _isLoading = false;
+    });
+    alertUser('Alert', 'Some of the fields are Empty!');
+    _formKey.currentState.reset();
     return false;
   }
 
@@ -163,7 +169,7 @@ class _DonationFormState extends State<DonationForm> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -187,7 +193,7 @@ class _DonationFormState extends State<DonationForm> {
                   'Add an item to the donation list',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.black87,
+                    color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                   ),
@@ -211,8 +217,8 @@ class _DonationFormState extends State<DonationForm> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: _imageFile == null
-                                  ? Colors.black
-                                  : Colors.blue,
+                                  ? Colors.white
+                                  : Colors.blueAccent,
                           ),
                         ),
                         IconButton(
@@ -258,30 +264,14 @@ class _DonationFormState extends State<DonationForm> {
 
   Widget showFormField(String name, int type) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
       child: TextFormField(
+        textAlign: TextAlign.center,
         autofocus: false,
-        style: TextStyle(fontSize: 15.0, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: name,
-          filled: true,
-          fillColor: Colors.white70,
-          contentPadding:
-              const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38),
-              borderRadius: BorderRadius.zero),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.zero),
+        decoration: kTestFieldDecorationForOneSidedBorders.copyWith(
+          hintText: name
         ),
         validator: (value) => value.isEmpty ? "can\'t be empty" : null,
-        onTap: () {
-          setState(() {
-            _isLoading = false;
-          });
-        },
         onSaved: (value) {
           switch (type) {
             case 1:

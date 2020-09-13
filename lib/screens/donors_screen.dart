@@ -36,9 +36,12 @@ class _DonorScreenState extends State<DonorScreen> {
   }
 
   getDonations() async {
-    var data = await _db.collection('donations').where('donorID', isEqualTo: currentUserEmail).getDocuments();
+    var data = await _db
+        .collection('donations')
+        .where('donorID', isEqualTo: currentUserEmail)
+        .getDocuments();
     print(data.documents.length);
-    if(data.documents.length != 0) {
+    if (data.documents.length != 0) {
       setState(() {
         donations = data.documents
             .map((doc) => Donation.fromMap(doc.data, doc.documentID))
@@ -113,14 +116,9 @@ class _DonorScreenState extends State<DonorScreen> {
       appBar: AppBar(
         title: Text('Charity App'),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Color(0xFF5D637A),
-        ),
-        child: AppDrawer(),
-      ),
+      drawer: AppDrawer(),
       body: isLoading
           ? showCircularProgress()
           : SafeArea(
@@ -143,7 +141,7 @@ class _DonorScreenState extends State<DonorScreen> {
                             IconButton(
                               icon: Icon(
                                 Icons.add_circle,
-                                color: Color(0xFF5D637A),
+                                color: Color(0xFF42906A),
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, DonationForm.id);
@@ -163,17 +161,20 @@ class _DonorScreenState extends State<DonorScreen> {
                   Expanded(
                     child: donations != null
                         ? GridView.builder(
-                      itemCount: donations.length,
-                      gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      itemBuilder: (BuildContext context, int i) {
-                        return donationCard(donations[i]);
-                      },
-                    )
+                            itemCount: donations.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int i) {
+                              return donationCard(donations[i]);
+                            },
+                          )
                         : Center(
-                      child: Text('No Donations has been made by you', style: TextStyle(fontSize: 20),),
-                    ),
+                            child: Text(
+                              'No Donations has been made by you',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
                   ),
                 ],
               ),

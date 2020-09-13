@@ -2,6 +2,7 @@ import 'package:charityapp/services/authentication.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:charityapp/constants.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   LoginSignupScreen({this.auth, this.loginCallback});
@@ -119,7 +120,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -176,26 +177,16 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       child: TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
+        textAlign: TextAlign.center,
         autofocus: false,
         onTap: () {
           setState(() {
             _isLoading = false;
           });
         },
-        style: TextStyle(fontSize: 15.0, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Email',
-          filled: true,
-          fillColor: Colors.white70,
-          contentPadding:
-              const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38),
-              borderRadius: BorderRadius.zero),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.zero),
+        style: TextStyle(fontSize: 15.0, color: Colors.white),
+        decoration: kTextFieldDecoration.copyWith(
+          hintText: 'Email'
         ),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value.trim(),
@@ -211,25 +202,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
         obscureText: true,
+        textAlign: TextAlign.center,
         onTap: () {
           setState(() {
             _isLoading = false;
           });
         },
-        style: TextStyle(fontSize: 15.0, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Password',
-          filled: true,
-          fillColor: Colors.white70,
-          contentPadding:
-              const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38),
-              borderRadius: BorderRadius.zero),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.zero),
+        decoration: kTextFieldDecoration.copyWith(
+          hintText: 'Password'
         ),
         validator: (value) {
           if (value.isEmpty && !_isLoginForm) return 'Password can\'t be empty';
@@ -255,7 +235,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             _isLoginForm ? 'Charity App Signin' : 'Charity App Signup',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.black87,
+              color: Colors.white,
               fontWeight: FontWeight.w700,
               fontSize: 24,
             ),
@@ -268,7 +248,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             'Offer something for free(e.g. meal, clothes) or express what you want',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.black38,
+              color: Colors.white,
               fontWeight: FontWeight.w400,
               fontSize: 19,
             ),
@@ -328,3 +308,4 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     }
   }
 }
+

@@ -74,7 +74,7 @@ class _Covid19PDFViewState extends State<Covid19PDFView> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
-          backgroundColor: Color(0xFF5D637A),
+          backgroundColor: Color(0xFF42906A),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios, size: 15),
             onPressed: () {
@@ -156,7 +156,7 @@ class _Covid19PDFViewState extends State<Covid19PDFView> {
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             ),
             centerTitle: true,
-            backgroundColor: Color(0xFF5D637A),
+            backgroundColor: Color(0xFF42906A),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, size: 15),
               onPressed: () {
@@ -178,7 +178,7 @@ class _Covid19PDFViewState extends State<Covid19PDFView> {
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             ),
             centerTitle: true,
-            backgroundColor: Color(0xFF5D637A),
+            backgroundColor: Color(0xFF42906A),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, size: 15),
               onPressed: () {

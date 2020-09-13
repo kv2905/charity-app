@@ -17,7 +17,7 @@ class UserCard extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -61,7 +61,7 @@ class UserCard extends StatelessWidget {
                   phone,
                   style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.teal.shade900
+                      color: Colors.white
                   ),
                 ),
               )
@@ -74,7 +74,7 @@ class UserCard extends StatelessWidget {
                   email,
                   style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.teal.shade900
+                      color: Colors.white
                   ),
                 ),
               )

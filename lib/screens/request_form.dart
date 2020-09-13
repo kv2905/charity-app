@@ -1,3 +1,4 @@
+import 'package:charityapp/constants.dart';
 import 'package:charityapp/models/request.dart';
 import 'package:charityapp/widgets/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,6 +71,11 @@ class _RequestFormState extends State<RequestForm> {
       form.save();
       return true;
     }
+    setState(() {
+      isLoading = false;
+    });
+    alertUser('Alert', 'Some of the fields are Empty!');
+    _formKey.currentState.reset();
     return false;
   }
 
@@ -80,14 +86,13 @@ class _RequestFormState extends State<RequestForm> {
     if (validateAndSave()) {
       try {
         _request = Request(
-          name: _itemName,
-          quantity: _quantity,
-          recipientName: _recipientName,
-          recipientContact: _contactNumber,
-          recipientAddress: _address,
-          description: _description,
-          recipientID: loggedInUser.email
-        );
+            name: _itemName,
+            quantity: _quantity,
+            recipientName: _recipientName,
+            recipientContact: _contactNumber,
+            recipientAddress: _address,
+            description: _description,
+            recipientID: loggedInUser.email);
         await _db.collection('requests').add(_request.toJSON());
         setState(() {
           isLoading = false;
@@ -115,7 +120,7 @@ class _RequestFormState extends State<RequestForm> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -139,7 +144,7 @@ class _RequestFormState extends State<RequestForm> {
                   'Make a Request',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.black87,
+                    color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                   ),
@@ -184,32 +189,15 @@ class _RequestFormState extends State<RequestForm> {
 
   Widget showFormField(String name, int type) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
       child: TextFormField(
+        textAlign: TextAlign.center,
         autofocus: false,
         keyboardType: type == 6 ? TextInputType.multiline : TextInputType.text,
         maxLines: type == 6 ? null : 1,
-        style: TextStyle(fontSize: 15.0, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: name,
-          filled: true,
-          fillColor: Colors.white70,
-          contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38),
-              borderRadius: BorderRadius.zero),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.zero),
-        ),
+        decoration:
+            kTestFieldDecorationForOneSidedBorders.copyWith(hintText: name),
         validator: (value) => value.isEmpty ? "can\'t be empty" : null,
-        onTap: () {
-          setState(() {
-            isLoading = false;
-          });
-        },
         onSaved: (value) {
           switch (type) {
             case 1:
@@ -235,5 +223,4 @@ class _RequestFormState extends State<RequestForm> {
       ),
     );
   }
-
 }

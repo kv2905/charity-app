@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Charity App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: Colors.white70
-      ),
+      theme: ThemeData.dark(),
       initialRoute: RootPage.id,
       routes: {
         RootPage.id: (context) => RootPage(auth: Auth()),

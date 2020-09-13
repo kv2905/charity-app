@@ -43,7 +43,7 @@ class ItemDetails extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -62,7 +62,7 @@ class ItemDetails extends StatelessWidget {
               child: ListTile(
                 title: Text(
                   'Item Name - ' + getName().toUpperCase(),
-                  style: TextStyle(fontSize: 20.0, color: Colors.teal.shade900),
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
               )),
           Card(
@@ -70,7 +70,7 @@ class ItemDetails extends StatelessWidget {
               child: ListTile(
                 title: Text(
                   'Quantity - ' + getQuantity(),
-                  style: TextStyle(fontSize: 20.0, color: Colors.teal.shade900),
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
               )),
           SizedBox(height: 30),

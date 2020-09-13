@@ -34,34 +34,6 @@ class _AppDrawerState extends State<AppDrawer> {
     }
   }
 
-  showAlert(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('LOG OUT'),
-          content: Text("Are You Sure Want To Proceed ?"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("YES"),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.pushNamed(context, RootPage.id);
-              },
-            ),
-
-            FlatButton(
-              child: Text("NO"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -102,7 +74,8 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               OptionTile(
                 onTap: () {
-                  showAlert(context);
+                  _auth.signOut();
+                  Navigator.pushNamed(context, RootPage.id);
                 },
                 optionName: 'LogOut',
               )

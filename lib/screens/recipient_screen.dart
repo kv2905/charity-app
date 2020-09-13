@@ -91,7 +91,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
       appBar: AppBar(
         title: Text('Charity App'),
         centerTitle: true,
-        backgroundColor: Color(0xFF5D637A),
+        backgroundColor: Color(0xFF42906A),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -102,12 +102,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
           )
         ],
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Color(0xFF5D637A),
-        ),
-        child: AppDrawer(),
-      ),
+      drawer: AppDrawer(),
       body: _isLoading == true
           ? Center(
               child: CircularProgressIndicator(),
@@ -132,7 +127,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
                             IconButton(
                               icon: Icon(
                                 Icons.add_circle,
-                                color: Color(0xFF5D637A),
+                                color: Color(0xFF42906A),
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, RequestForm.id);
@@ -177,6 +172,16 @@ class SearchBar extends SearchDelegate<Donation> {
   final List<Donation> donations;
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return theme.copyWith(
+      primaryColor: Colors.black,
+    );
+  }
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -192,7 +197,7 @@ class SearchBar extends SearchDelegate<Donation> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.pushNamed(context, RecipientScreen.id);
+        Navigator.pop(context);
       },
       icon: Icon(Icons.arrow_back),
     );
