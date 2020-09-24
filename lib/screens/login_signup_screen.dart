@@ -159,6 +159,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           shrinkWrap: true,
           children: <Widget>[
             showFormHeader(),
+            showNameInput(),
             showEmailInput(),
             showPasswordInput(),
             showWarningMessage(),
@@ -173,7 +174,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Widget showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
@@ -190,6 +191,28 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         ),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value.trim(),
+      ),
+    );
+  }
+
+  Widget showNameInput() {
+    return _isLoginForm ? Container() : Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        keyboardType: TextInputType.emailAddress,
+        textAlign: TextAlign.center,
+        autofocus: false,
+        onTap: () {
+          setState(() {
+            _isLoading = false;
+          });
+        },
+        style: TextStyle(fontSize: 15.0, color: Colors.white),
+        decoration: kTextFieldDecoration.copyWith(
+            hintText: 'Full Name'
+        ),
+        validator: (value) => value.isEmpty ? 'Field can\'t be empty' : null,
       ),
     );
   }
@@ -261,7 +284,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   Widget showWarningMessage() {
     return Column(
       children: [
-        SizedBox(height: 70),
+        SizedBox(height: 50),
         Container(
           width: 250,
           alignment: Alignment.center,

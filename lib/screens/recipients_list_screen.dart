@@ -1,9 +1,8 @@
 import 'package:charityapp/models/request.dart';
+import 'package:charityapp/screens/request_details.dart';
 import 'package:charityapp/screens/root_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'item_details.dart';
 
 class RecipientsList extends StatefulWidget {
   static const String id = 'recipient_list';
@@ -79,7 +78,7 @@ class _RecipientsListState extends State<RecipientsList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ItemDetails(request: requests[i], type: 'request'),
+                                RequestDetails(request: requests[i]),
                           ),
                         );
                       },

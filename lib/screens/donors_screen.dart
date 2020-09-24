@@ -1,11 +1,11 @@
 import 'package:charityapp/models/donation.dart';
+import 'package:charityapp/screens/donation_details.dart';
 import 'package:charityapp/screens/donation_form.dart';
 import 'package:charityapp/widgets/app_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'item_details.dart';
 
 FirebaseUser loggedInUser;
 
@@ -59,8 +59,7 @@ class _DonorScreenState extends State<DonorScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                ItemDetails(donation: donation, type: 'mydonation'),
+            builder: (context) => DonationDetails(donation: donation),
           ),
         );
       },

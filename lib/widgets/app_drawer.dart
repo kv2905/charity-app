@@ -78,7 +78,19 @@ class _AppDrawerState extends State<AppDrawer> {
                   Navigator.pushNamed(context, RootPage.id);
                 },
                 optionName: 'LogOut',
-              )
+              ),
+              OptionTile(
+                onTap: () {
+                  Navigator.pushNamed(context, Covid19PDFView.id);
+                },
+                optionName: 'Contact Us',
+              ),
+              OptionTile(
+                onTap: () {
+                  Navigator.pushNamed(context, Covid19PDFView.id);
+                },
+                optionName: 'App Details',
+              ),
             ],
           ),
         ),

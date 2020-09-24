@@ -1,5 +1,5 @@
 import 'package:charityapp/models/donation.dart';
-import 'package:charityapp/screens/item_details.dart';
+import 'package:charityapp/screens/donation_details.dart';
 import 'package:charityapp/screens/request_form.dart';
 import 'package:charityapp/widgets/app_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,8 +46,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                ItemDetails(donation: donation, type: 'donation'),
+            builder: (context) => DonationDetails(donation: donation),
           ),
         );
       },
@@ -117,7 +116,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'People Donations',
+                          'Browse Donations',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -214,8 +213,10 @@ class SearchBar extends SearchDelegate<Donation> {
     final List<Donation> myList = query.isEmpty
         ? donations
         : donations
-            .where((e) =>
-                (e.name.toLowerCase().startsWith(query.toLowerCase()) || e.donorAddress.toLowerCase().startsWith(query.toLowerCase())))
+            .where((e) => (e.name
+                    .toLowerCase()
+                    .startsWith(query.toLowerCase()) ||
+                e.donorAddress.toLowerCase().startsWith(query.toLowerCase())))
             .toList();
     return ListView.builder(
       itemCount: myList.length,
@@ -227,7 +228,7 @@ class SearchBar extends SearchDelegate<Donation> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    ItemDetails(donation: myList[i], type: 'donation'),
+                    DonationDetails(donation: myList[i]),
               ),
             );
           },
