@@ -2,14 +2,19 @@ import 'package:charityapp/screens/root_page.dart';
 import 'package:flutter/material.dart';
 
 
-class ContactUs extends StatelessWidget {
+class ContactUs extends StatefulWidget {
+  static const String id = 'contact_us';
+  @override
+  _ContactUsState createState() => _ContactUsState();
+}
+
+class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Covid 19 Information',
+            'Contact Us',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
@@ -51,6 +56,7 @@ class ContactUs extends StatelessWidget {
                 ),
                 Card(
                     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    color: Colors.white,
                     child: ListTile(
                       leading: Icon(Icons.phone, color: Colors.teal),
                       title: Text(
@@ -64,6 +70,7 @@ class ContactUs extends StatelessWidget {
                 ),
                 Card(
                     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    color: Colors.white,
                     child: ListTile(
                       leading: Icon(Icons.email, color: Colors.teal),
                       title: Text(
@@ -78,7 +85,6 @@ class ContactUs extends StatelessWidget {
               ],
             )
         ),
-      ),
     );
   }
 }

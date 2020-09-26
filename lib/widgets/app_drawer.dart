@@ -75,11 +75,9 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               OptionTile(
                 onTap: () {
-                  MaterialPageRoute(
-                    builder: (context) => ContactUs(),
-                  );
+                  Navigator.pushNamed(context, ContactUs.id);
                 },
-                optionName: 'App Details',
+                optionName: 'Contact Us',
               ),
               OptionTile(
                 onTap: () {
