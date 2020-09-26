@@ -1,3 +1,4 @@
+import 'package:charityapp/screens/contact_us.dart';
 import 'package:charityapp/screens/covid19_pdf_view.dart';
 import 'package:charityapp/screens/donors_screen.dart';
 import 'package:charityapp/screens/recipient_screen.dart';
@@ -74,22 +75,18 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               OptionTile(
                 onTap: () {
+                  MaterialPageRoute(
+                    builder: (context) => ContactUs(),
+                  );
+                },
+                optionName: 'App Details',
+              ),
+              OptionTile(
+                onTap: () {
                   _auth.signOut();
                   Navigator.pushNamed(context, RootPage.id);
                 },
                 optionName: 'LogOut',
-              ),
-              OptionTile(
-                onTap: () {
-                  Navigator.pushNamed(context, Covid19PDFView.id);
-                },
-                optionName: 'Contact Us',
-              ),
-              OptionTile(
-                onTap: () {
-                  Navigator.pushNamed(context, Covid19PDFView.id);
-                },
-                optionName: 'App Details',
               ),
             ],
           ),
