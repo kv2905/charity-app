@@ -31,6 +31,14 @@ class _DonationFormState extends State<DonationForm> {
   String _address;
   bool _isLoading;
   Donation _donation;
+  List<String> items = [
+    'Fruits',
+    'Vegetables',
+    'Cereals',
+    'Juice',
+    'Eggs',
+    'Meat'
+  ];
 
   @override
   void initState() {
@@ -75,10 +83,12 @@ class _DonationFormState extends State<DonationForm> {
     String fileName = Path.basename(_imageFile.path);
     StorageReference reference =
         FirebaseStorage.instance.ref().child('images').child(fileName);
-    StorageUploadTask uploadTask = reference.putFile(_imageFile, StorageMetadata(contentType: 'image/jpeg'));
+    StorageUploadTask uploadTask = reference.putFile(
+        _imageFile, StorageMetadata(contentType: 'image/jpeg'));
     await uploadTask.onComplete;
     print('File Uploaded');
-    String downloadURL = (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    String downloadURL =
+        (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
     setState(() {
       _uploadedImageURL = downloadURL;
     });
@@ -103,13 +113,17 @@ class _DonationFormState extends State<DonationForm> {
       alertUser('Alert', 'No image selected.');
       return;
     }
+    if(_itemName == null) {
+      alertUser('Alert', 'Some of the fields are Empty!');
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
     if (validateAndSave()) {
       try {
         await uploadImage();
-        if(_uploadedImageURL == null) {
+        if (_uploadedImageURL == null) {
           alertUser('Error', 'Some error occurred while uploading image');
           setState(() {
             _isLoading = false;
@@ -203,7 +217,7 @@ class _DonationFormState extends State<DonationForm> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    showFormField('Item Name', 1),
+                    selectItem(),
                     showFormField('Quantity', 2),
                     showFormField('Donor Name', 3),
                     showFormField('Contact Number', 4),
@@ -215,10 +229,10 @@ class _DonationFormState extends State<DonationForm> {
                         Text(
                           _imageFile == null ? 'Choose Photo' : 'Change photo',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: _imageFile == null
-                                  ? Colors.white
-                                  : Colors.blueAccent,
+                            fontWeight: FontWeight.bold,
+                            color: _imageFile == null
+                                ? Colors.white
+                                : Colors.blueAccent,
                           ),
                         ),
                         IconButton(
@@ -262,15 +276,58 @@ class _DonationFormState extends State<DonationForm> {
     );
   }
 
+  Widget selectItem() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+      child: DropdownButton<String>(
+        hint: SizedBox(
+          width: 500,
+          child: Text(
+            'Select item to donate',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.blueGrey, fontSize: 18),
+          ),
+        ),
+        value: _itemName,
+        isExpanded: true,
+        icon: Icon(Icons.arrow_drop_down),
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.blueGrey, fontSize: 18),
+        underline: Container(
+          height: 2,
+          width: 200.0,
+          color: Colors.lightBlueAccent,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            _itemName = newValue;
+          });
+        },
+        items: items.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 500,
+                child: Text(value, textAlign: TextAlign.center),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   Widget showFormField(String name, int type) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
       child: TextFormField(
         textAlign: TextAlign.center,
         autofocus: false,
-        decoration: kTestFieldDecorationForOneSidedBorders.copyWith(
-          hintText: name
-        ),
+        decoration:
+            kTestFieldDecorationForOneSidedBorders.copyWith(hintText: name),
         validator: (value) => value.isEmpty ? "can\'t be empty" : null,
         onSaved: (value) {
           switch (type) {

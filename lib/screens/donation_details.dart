@@ -1,5 +1,6 @@
 import 'package:charityapp/models/donation.dart';
 import 'package:charityapp/screens/recipient_screen.dart';
+import 'package:charityapp/screens/root_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class DonationDetails extends StatelessWidget {
             size: 15,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, RecipientScreen.id);
+            Navigator.pushNamed(context, RootPage.id);
           },
         ),
       ),

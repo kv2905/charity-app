@@ -55,6 +55,35 @@ class _DonorScreenState extends State<DonorScreen> {
 
   Widget donationCard(Donation donation) {
     return GestureDetector(
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Alert'),
+              content: Text('Delete the donation?'),
+              actions: [
+                FlatButton(
+                  child: Text('NO'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text('YES'),
+                  onPressed: () async {
+                    await _db.collection('donations').document(donation.id).delete();
+                    setState(() {
+                      donations.remove(donation);
+                    });
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          },
+        );
+      },
       onTap: () {
         Navigator.push(
           context,
